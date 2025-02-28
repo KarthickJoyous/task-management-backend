@@ -15,4 +15,5 @@ return [
     "task_deleted" => "Task Deleted.",
     "task_updation_failed" => "Task updation failed. Please try again.",
     "task_updated" => "Task Updated",
+    "task_not_found" => "Task not found."
 ];

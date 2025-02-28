@@ -8,6 +8,15 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Profile\LogoutController;
 use App\Http\Controllers\Api\Profile\ProfileController;
 
+function resourceNotFound($message) {
+
+    return response()->json([
+        'success' => false,
+        'message' => $message,
+        'code' => 404
+    ], 404);
+}
+
 Route::group(['middleware' => ['apiLogger']], function () {
     
     Route::group(['middleware' => ['throttle:10,1']], function () { 
@@ -19,6 +28,8 @@ Route::group(['middleware' => ['apiLogger']], function () {
         Route::get('me', ProfileController::class);
         Route::post('logout', LogoutController::class);
     
-        Route::apiResource('tasks', TaskController::class)->scoped();
+        Route::apiResource('tasks', TaskController::class)->missing(function () {
+            return resourceNotFound(__('messages.task_not_found'));
+        });;
     });
 });
